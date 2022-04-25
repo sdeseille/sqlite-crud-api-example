@@ -1,0 +1,28 @@
+{
+  "name": "sqlite-crud-api-example",
+  "version": "1.0.0",
+  "description": "example of crud api based on node.js and sqlite",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdeseille/sqlite-crud-api-example.git"
+  },
+  "keywords": [
+    "node.js",
+    "sqlite",
+    "crud"
+  ],
+  "author": "sdeseille",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sdeseille/sqlite-crud-api-example/issues"
+  },
+  "homepage": "https://github.com/sdeseille/sqlite-crud-api-example#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "sqlite3": "^5.0.5"
+  }
+}
