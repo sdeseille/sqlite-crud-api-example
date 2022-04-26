@@ -1,3 +1,4 @@
+const bodyParser = require('body-parser')
 const express = require('express')
 const sqlite3 = require('sqlite3').verbose()
 
@@ -24,7 +25,11 @@ db.serialize(function () {
 })
 
 const app = express()
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+
 app.get('/database', function (req, res) {
+  console.log(req)
   db.all('SELECT ID, FIRSTNAME, LASTNAME FROM datas', function (err, rows) {
     let output = []
     if (err) {
@@ -41,6 +46,34 @@ app.get('/database', function (req, res) {
     }
   })
 })
+
+app.post('/add', function (req, res) {
+  console.log(req)
+  let IdValue = req.body.id
+  let FirstNameValue = req.body.firstname
+  let LastNameValue = req.body.lastname
+  if ((IdValue !== '' && IdValue!== undefined)) {
+    db.each('SELECT ID FROM datas WHERE id=? UNION ALL SELECT NULL LIMIT 1', IdValue, function (err, row) {
+      if (err) {
+        console.log(err)
+      }
+      if (row.id === null) {
+        db.run('INSERT INTO datas VALUES (?, ?, ?) ', IdValue, FirstNameValue, LastNameValue, function (err, row) {
+          if (err) {
+            console.log(err)
+          } else {
+            res.send('Success')
+          }
+        })
+      } else {
+        res.send('ID already exists')
+      }
+    })
+  } else {
+    res.send('Unable to add data. Check syntax.')
+  }
+})
+
 app.use(express.json())
 app.set('port', 4040)
 console.log('Server listening on port', app.get('port'))
