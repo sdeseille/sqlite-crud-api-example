@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/sdeseille/sqlite-crud-api-example#readme",
   "dependencies": {
-    "body-parser": "^1.20.0",
     "express": "^4.17.3",
     "sqlite3": "^5.0.5"
   }

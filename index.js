@@ -1,4 +1,3 @@
-const bodyParser = require('body-parser')
 const express = require('express')
 const sqlite3 = require('sqlite3').verbose()
 
@@ -25,8 +24,8 @@ db.serialize(function () {
 })
 
 const app = express()
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
 
 app.get('/database', function (req, res) {
   console.log(req)
