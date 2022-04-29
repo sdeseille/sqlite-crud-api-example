@@ -28,7 +28,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
 app.get('/database', function (req, res) {
-  console.log(req)
+  //console.log(req)
   db.all('SELECT ID, FIRSTNAME, LASTNAME FROM datas', function (err, rows) {
     let output = []
     if (err) {
@@ -70,6 +70,30 @@ app.post('/add', function (req, res) {
     })
   } else {
     res.send('Unable to add data. Check syntax.')
+  }
+})
+
+app.post('/delete', function (req, res) {
+  var IdValue = req.body.id
+  if (IdValue !== '' && IdValue !== undefined) {
+    db.each('SELECT ID FROM datas WHERE id=? UNION ALL SELECT NULL LIMIT 1', IdValue, function (err, row) {
+      if (err) {
+        console.log(err)
+      }
+      if (row.id === null) {
+        res.send('You should specify an ID')
+      } else {
+        db.run('DELETE FROM datas WHERE id=?', IdValue, function (err) {
+          if (err) {
+            console.log(err)
+          } else {
+            res.send('Success')
+          }
+        })
+      }
+    })
+  } else {
+    res.send('Unable to delete data. Check syntax')
   }
 })
 
